@@ -1,0 +1,5 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    public_member_api_docs: false # Optional: Turn off if you don't want to document every single function
