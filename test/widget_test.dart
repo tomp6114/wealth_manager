@@ -1,28 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:money_manager/app.dart';
 import 'package:money_manager/flavors.dart';
+import 'package:money_manager/pages/my_home_page.dart';
 
 void main() {
-  // Initialize the flavor before running tests
-  setUpAll(() {
-    F.appFlavor = Flavor.dev;
+  group('MyHomePage Tests', () {
+    // Initialize flavor before all tests
+    setUpAll(() {
+      F.appFlavor = Flavor.dev;
+    });
+
+    testWidgets('displays app title in AppBar', (WidgetTester tester) async {
+      // Build the widget
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MyHomePage(),
+        ),
+      );
+
+      // Verify AppBar title is displayed
+      expect(find.text(F.title), findsOneWidget);
+      expect(find.byType(AppBar), findsOneWidget);
+    });
+
+    testWidgets('displays greeting message in body', 
+    (WidgetTester tester) async {
+      // Build the widget
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MyHomePage(),
+        ),
+      );
+
+      // Verify greeting message is displayed
+      expect(find.text('Hello ${F.title}'), findsOneWidget);
+    });
+
+    testWidgets('has correct widget structure', (WidgetTester tester) async {
+      // Build the widget
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MyHomePage(),
+        ),
+      );
+
+      // Verify widget structure
+      expect(find.byType(Scaffold), findsOneWidget);
+      expect(find.byType(AppBar), findsOneWidget);
+      expect(find.byType(Center), findsOneWidget);
+    });
   });
 
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+  group('MyHomePage Flavor Tests', () {
+    testWidgets('displays development flavor title',
+     (WidgetTester tester) async {
+      // Set development flavor
+      F.appFlavor = Flavor.dev;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MyHomePage(),
+        ),
+      );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      // Verify development title
+      expect(find.text('Money Manager DEV'), findsOneWidget);
+      expect(find.text('Hello Money Manager DEV'), findsOneWidget);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    testWidgets('displays production flavor title',
+     (WidgetTester tester) async {
+      // Set production flavor
+      F.appFlavor = Flavor.prod;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MyHomePage(),
+        ),
+      );
+
+      // Verify production title
+      expect(find.text('Money Manager'), findsOneWidget);
+      expect(find.text('Hello Money Manager'), findsOneWidget);
+    });
   });
 }
