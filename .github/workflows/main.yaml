@@ -21,6 +21,30 @@ jobs:
         channel: 'stable'
         cache: true
     
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.pub-cache
+          **/.dart_tool
+          **/.flutter-plugins
+          **/.flutter-plugin-dependencies
+          **/.packages
+        key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pub-
+    
+    - name: Cache Gradle dependencies (Android)
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          android/.gradle
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    
     - name: Install dependencies
       run: flutter pub get
     
@@ -38,4 +62,4 @@ jobs:
     
     # Optional: Build APK to verify build works
     - name: Build APK (Development)
-      run: flutter build apk --debug --flavor development -t lib/main_development.dart
+      run: flutter build apk --debug --flavor dev -t lib/main.dart
