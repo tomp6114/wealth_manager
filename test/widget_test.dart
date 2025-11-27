@@ -5,8 +5,7 @@ import 'package:money_manager/pages/my_home_page.dart';
 
 void main() {
   group('MyHomePage Tests', () {
-    // Initialize flavor before all tests
-    setUpAll(() {
+    setUp(() {
       F.appFlavor = Flavor.dev;
     });
 
@@ -23,8 +22,8 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('displays greeting message in body', 
-    (WidgetTester tester) async {
+    testWidgets('displays greeting message in body',
+     (WidgetTester tester) async {
       // Build the widget
       await tester.pumpWidget(
         const MaterialApp(
@@ -54,8 +53,9 @@ void main() {
   group('MyHomePage Flavor Tests', () {
     testWidgets('dev flavor displays correct title', 
     (WidgetTester tester) async {
-      // Set dev flavor
+      // Set dev flavor BEFORE building widget
       F.appFlavor = Flavor.dev;
+      final expectedTitle = F.title;
 
       await tester.pumpWidget(
         const MaterialApp(
@@ -63,15 +63,16 @@ void main() {
         ),
       );
 
-      // Verify dev title
-      expect(find.text('Wealth Dev'), findsOneWidget);
-      expect(find.text('Hello Wealth Dev'), findsOneWidget);
+      // Verify the title that was set
+      expect(find.text(expectedTitle), findsOneWidget);
+      expect(find.text('Hello $expectedTitle'), findsOneWidget);
     });
 
     testWidgets('prod flavor displays correct title', 
     (WidgetTester tester) async {
-      // Set prod flavor
+      // Set prod flavor BEFORE building widget
       F.appFlavor = Flavor.prod;
+      final expectedTitle = F.title;
 
       await tester.pumpWidget(
         const MaterialApp(
@@ -79,35 +80,33 @@ void main() {
         ),
       );
 
-      // Verify prod title
-      expect(find.text('Wealth Manager'), findsOneWidget);
-      expect(find.text('Hello Wealth Manager'), findsOneWidget);
+      // Verify the title that was set
+      expect(find.text(expectedTitle), findsOneWidget);
+      expect(find.text('Hello $expectedTitle'), findsOneWidget);
+    });
+  });
+
+  group('Flavor Configuration Tests', () {
+    test('dev flavor has correct name and title', () {
+      F.appFlavor = Flavor.dev;
+      expect(F.name, equals('dev'));
+      expect(F.title, equals('Wealth Dev'));
     });
 
-    testWidgets('dev and prod flavors have different titles', 
-    (WidgetTester tester) async {
-      // Get titles for each flavor
+    test('prod flavor has correct name and title', () {
+      F.appFlavor = Flavor.prod;
+      expect(F.name, equals('prod'));
+      expect(F.title, equals('Wealth Manager'));
+    });
+
+    test('dev and prod flavors have different titles', () {
       F.appFlavor = Flavor.dev;
       final devTitle = F.title;
 
       F.appFlavor = Flavor.prod;
       final prodTitle = F.title;
 
-      // Verify that flavors have different titles
-      expect(devTitle, equals('Wealth Dev'));
-      expect(prodTitle, equals('Wealth Manager'));
-      expect(devTitle == prodTitle, isFalse,
-          reason: 'Dev and Prod should have different titles');
-    });
-
-    testWidgets('flavor name matches enum name', (WidgetTester tester) async {
-      // Test dev flavor name
-      F.appFlavor = Flavor.dev;
-      expect(F.name, equals('dev'));
-
-      // Test prod flavor name
-      F.appFlavor = Flavor.prod;
-      expect(F.name, equals('prod'));
+      expect(devTitle, isNot(equals(prodTitle)));
     });
   });
 }

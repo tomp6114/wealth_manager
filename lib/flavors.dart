@@ -4,7 +4,7 @@ enum Flavor {
 }
 
 class F {
-  static late final Flavor appFlavor;
+  static late Flavor appFlavor;
 
   static String get name => appFlavor.name;
 
@@ -16,5 +16,4 @@ class F {
         return 'Wealth Manager';
     }
   }
-
 }
