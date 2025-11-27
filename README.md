@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # money_manager
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# wealth_manager
+>>>>>>> c18520b72dd7ba88394155ac59e71c2f1bbe922e
