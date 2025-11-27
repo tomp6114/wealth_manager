@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:money_manager/flavors.dart';
 import 'package:money_manager/pages/my_home_page.dart';
@@ -11,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: F.title,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: _flavorBanner(child: MyHomePage(), show: kDebugMode),
+      home: _flavorBanner(child: const MyHomePage()),
     );
   }
 
