@@ -52,9 +52,9 @@ void main() {
   });
 
   group('MyHomePage Flavor Tests', () {
-    testWidgets('displays development flavor title',
-     (WidgetTester tester) async {
-      // Set development flavor
+    testWidgets('dev flavor displays correct title', 
+    (WidgetTester tester) async {
+      // Set dev flavor
       F.appFlavor = Flavor.dev;
 
       await tester.pumpWidget(
@@ -63,14 +63,14 @@ void main() {
         ),
       );
 
-      // Verify development title
-      expect(find.text('Money Manager DEV'), findsOneWidget);
-      expect(find.text('Hello Money Manager DEV'), findsOneWidget);
+      // Verify dev title
+      expect(find.text('Wealth Dev'), findsOneWidget);
+      expect(find.text('Hello Wealth Dev'), findsOneWidget);
     });
 
-    testWidgets('displays production flavor title',
-     (WidgetTester tester) async {
-      // Set production flavor
+    testWidgets('prod flavor displays correct title', 
+    (WidgetTester tester) async {
+      // Set prod flavor
       F.appFlavor = Flavor.prod;
 
       await tester.pumpWidget(
@@ -79,9 +79,35 @@ void main() {
         ),
       );
 
-      // Verify production title
-      expect(find.text('Money Manager'), findsOneWidget);
-      expect(find.text('Hello Money Manager'), findsOneWidget);
+      // Verify prod title
+      expect(find.text('Wealth Manager'), findsOneWidget);
+      expect(find.text('Hello Wealth Manager'), findsOneWidget);
+    });
+
+    testWidgets('dev and prod flavors have different titles', 
+    (WidgetTester tester) async {
+      // Get titles for each flavor
+      F.appFlavor = Flavor.dev;
+      final devTitle = F.title;
+
+      F.appFlavor = Flavor.prod;
+      final prodTitle = F.title;
+
+      // Verify that flavors have different titles
+      expect(devTitle, equals('Wealth Dev'));
+      expect(prodTitle, equals('Wealth Manager'));
+      expect(devTitle == prodTitle, isFalse,
+          reason: 'Dev and Prod should have different titles');
+    });
+
+    testWidgets('flavor name matches enum name', (WidgetTester tester) async {
+      // Test dev flavor name
+      F.appFlavor = Flavor.dev;
+      expect(F.name, equals('dev'));
+
+      // Test prod flavor name
+      F.appFlavor = Flavor.prod;
+      expect(F.name, equals('prod'));
     });
   });
 }
