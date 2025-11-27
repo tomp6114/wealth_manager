@@ -11,25 +11,18 @@ void main() {
 
     testWidgets('displays app title in AppBar', (WidgetTester tester) async {
       // Build the widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MyHomePage(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MyHomePage()));
 
       // Verify AppBar title is displayed
       expect(find.text(F.title), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('displays greeting message in body',
-     (WidgetTester tester) async {
+    testWidgets('displays greeting message in body', (
+      WidgetTester tester,
+    ) async {
       // Build the widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MyHomePage(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MyHomePage()));
 
       // Verify greeting message is displayed
       expect(find.text('Hello ${F.title}'), findsOneWidget);
@@ -37,11 +30,7 @@ void main() {
 
     testWidgets('has correct widget structure', (WidgetTester tester) async {
       // Build the widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MyHomePage(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MyHomePage()));
 
       // Verify widget structure
       expect(find.byType(Scaffold), findsOneWidget);
@@ -51,34 +40,28 @@ void main() {
   });
 
   group('MyHomePage Flavor Tests', () {
-    testWidgets('dev flavor displays correct title', 
-    (WidgetTester tester) async {
+    testWidgets('dev flavor displays correct title', (
+      WidgetTester tester,
+    ) async {
       // Set dev flavor BEFORE building widget
       F.appFlavor = Flavor.dev;
       final expectedTitle = F.title;
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MyHomePage(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MyHomePage()));
 
       // Verify the title that was set
       expect(find.text(expectedTitle), findsOneWidget);
       expect(find.text('Hello $expectedTitle'), findsOneWidget);
     });
 
-    testWidgets('prod flavor displays correct title', 
-    (WidgetTester tester) async {
+    testWidgets('prod flavor displays correct title', (
+      WidgetTester tester,
+    ) async {
       // Set prod flavor BEFORE building widget
       F.appFlavor = Flavor.prod;
       final expectedTitle = F.title;
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MyHomePage(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MyHomePage()));
 
       // Verify the title that was set
       expect(find.text(expectedTitle), findsOneWidget);
